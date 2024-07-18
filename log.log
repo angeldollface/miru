@@ -1,0 +1,25 @@
+-- FF START --
+GET / HTTP/1.1
+Host: localhost:8000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:128.0) Gecko/20100101 Firefox/128.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Cookie: csrftoken=9p7A7aj0FiQkq1fVv6BEZ8onWOwxrUGp; _ga_902CP5DY95=GS1.1.1720873325.7.1.1720875655.0.0.0; _ga=GA1.1.1709402278.1720275050
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+-- FF END --
+
+-- WGET START --
+GET / HTTP/1.1
+Host: localhost:8000
+User-Agent: Wget/1.24.5
+Accept: */*
+Accept-Encoding: identity
+Connection: Keep-Alive
+-- WGET END --

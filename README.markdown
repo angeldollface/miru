@@ -2,7 +2,7 @@
 
 ## ABOUT :books:
 
-Since I like microservices and APIs, I decided to write my own tiny library for my fellow crabs bringing them the functionality they need to implement microservices in a light(-hearted) way. This repository contains the source code for this library, ***Miru***. Also, there was too much drama around Actix Web. If you know, you know. An example can be found in the `examples` directory.
+Since I like microservices and APIs, I decided to write my own tiny library for my fellow crabs bringing them the functionality they need to implement microservices in a light(-hearted) way. This repository contains the source code for this library, ***Miru***. Also, there was too much drama around Actix Web. If you know, you know. An example can be found in the `example` directory.
 
 ## STATUS :warning:
 

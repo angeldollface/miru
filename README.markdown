@@ -20,6 +20,7 @@ Since I like microservices and APIs, I decided to write my own tiny library for 
   - [ ] Unit tests
   - [ ] Documentation
   - [ ] A funky logo (maybe)
+  - [ ] GitHub CI
 
 ## NOTE :scroll:
 

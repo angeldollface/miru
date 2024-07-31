@@ -1,9 +1,33 @@
 [package]
-name = "midrar"
+name = "miru-example"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+authors = ["Angel Dollface"]
+description= "An example app for the Miru framework."
+homepage = "https://github.com/angeldollface/miru"
+repository = "https://github.com/angeldollface/miru"
+documentation = "https://docs.rs/miru/0.1.0"
+readme = "README.markdown"
+keywords = [
+    "miru", 
+    "http", 
+    "web", 
+    "framework", 
+    "async"
+]
+categories = [
+    "network-programming",
+    "asynchronous",
+    "web-programming::http-server",
+    "web-programming::websocket"
+]
+exclude = [
+    "/.github"
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde_json = "1.0.121"
 miru = { version = "0.1.0", path = "../" }
+serde = { version="1.0.204", features=["derive"] }

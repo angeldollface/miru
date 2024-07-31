@@ -1,4 +1,5 @@
 use super::err::MiruErr;
+use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
 pub enum HTTPMethod {
@@ -47,14 +48,7 @@ pub struct RequestHeaders {
     pub method: HTTPMethod,
     pub route: String,
     pub http_version: String,
-    pub host: String,
-    pub user_agent: String,
-    pub accept_formats: Vec<String>,
-    pub accept_language: String,
-    pub accept_encoding: String,
-    pub connection: String,
-    pub cookie: String,
-    pub body: String,
+    pub headers: HashMap<String, String>
 }
 
 impl RequestHeaders{
@@ -65,20 +59,77 @@ impl RequestHeaders{
 
 #[derive(Clone, Debug)]
 pub struct RequestBody {
+    pub body: String
 }
 
 impl RequestBody{
     pub fn to_string(&self) -> String {
-        todo!("Implement!")
+        format!("{}", &self.body)
     }
 }
 
 pub fn parse_body(body: &String) -> Result<RequestBody, MiruErr> {
-    todo!("Implement parsing");
+    if body.is_empty(){
+        let e: String = "Empty body received.".to_string();
+        Err::<RequestBody, MiruErr>(MiruErr::new(&e.to_string()))
+    }
+    else {
+        Ok(RequestBody{ body: body.to_owned() })
+    }
 }
 
 pub fn parse_headers(headers: &String) -> Result<RequestHeaders, MiruErr> {
-    todo!("Implement parsing");
+    let mut header_lines: Vec<&str> = headers.split("\n").collect();
+    if header_lines.is_empty(){
+        let e: String = "Invalid request received.".to_string();
+        Err::<RequestHeaders, MiruErr>(MiruErr::new(&e.to_string()))
+    }
+    else {
+        let mut method: HTTPMethod = HTTPMethod::GET;
+        let head: String = header_lines[0].to_string();
+        let head_parts: Vec<&str> = head.split(" ").collect();
+        if head_parts.len() != 3 {
+            let e: String = format!("Error with header's head.");
+            Err::<RequestHeaders, MiruErr>(MiruErr::new(&e.to_string()))
+        }
+        else {
+            match head_parts[0] {
+                "GET" => method = HTTPMethod::GET,
+                "POST" => method = HTTPMethod::POST,
+                "HEAD" => method = HTTPMethod::HEAD,
+                "PUT" => method = HTTPMethod::PUT,
+                "DELETE" => method = HTTPMethod::DELETE,
+                "CONNECT" => method = HTTPMethod::CONNECT,
+                "OPTIONS" => method = HTTPMethod::OPTIONS,
+                "TRACE" => method = HTTPMethod::TRACE,
+                "PATCH" => method = HTTPMethod::PATCH,
+                _ => ()
+            }
+            let route: String = head_parts[1].to_string();
+            let http_version: Vec<&str> = head_parts[2].split("/").collect();
+            let mut headers: HashMap<String, String> = HashMap::new();
+            header_lines.remove(0);
+            for line in header_lines {
+                let line_parts: Vec<&str> = line.split(":").collect();
+                if line_parts.len() == 2 {
+                    let key: String = line_parts[0].to_string();
+                    let value: String = line_parts[1].to_string();
+                    headers.insert(key, value);
+                }
+                else {
+                    let e: String = format!("Error with header line: \"{}\"", line);
+                    return Err::<RequestHeaders, MiruErr>(MiruErr::new(&e.to_string()))
+                }
+            }
+            let req_headers: RequestHeaders = RequestHeaders{ 
+                method: method,
+                route: route,
+                http_version: (http_version[1]).to_string(),
+                headers: headers
+            };
+            Ok(req_headers)
+        }
+    }
 }
 
 pub fn parse_request(request: &String) -> Result<Request, MiruErr> {
@@ -106,7 +157,6 @@ pub fn parse_request(request: &String) -> Result<Request, MiruErr> {
             Err(e) => return Err::<Request, MiruErr>(MiruErr::new(&e.to_string()))
         };
         result = Request::new(&headers, &None);
-
     }
     Ok(result)
 }
